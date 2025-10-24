@@ -1,0 +1,29 @@
+# Conventional Commits - Teste Avaliativo KPMG (Vaga Pleno)
+# <type>[optional scope]: <description>
+#
+# [optional body]
+#
+# [optional footer(s)]
+#
+# Type: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
+# Scope: company, email, auth, api, docker, prisma, etc.
+# Description: imperative, present tense, max 50 chars, no period at end
+#
+# Examples:
+# feat(company): add company validation endpoint
+# fix(auth): resolve JWT token expiration issue
+# docs(api): update swagger documentation
+# refactor(email): simplify email template service
+# test(company): add unit tests for company service
+# chore(docker): update docker-compose configuration
+# perf(database): optimize company queries with indexes
+# ci(github): add automated testing workflow
+#
+# Breaking changes:
+# feat(api): restructure company endpoints
+#
+# BREAKING CHANGE: Company endpoints now use /api/v2 prefix
+#
+# Issue references:
+# Closes #123
+# Fixes #456

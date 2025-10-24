@@ -1,0 +1,102 @@
+# Git Configuration - Teste Avaliativo KPMG (Vaga Pleno)
+# Configurações específicas do projeto
+
+[core]
+    # Template de commit message
+    commitTemplate = .gitmessage
+    
+    # Editor padrão
+    editor = code --wait
+    
+    # Line endings
+    autocrlf = input
+    
+    # Branch padrão
+    defaultBranch = main
+
+[pull]
+    # Estratégia de pull
+    rebase = false
+
+[alias]
+    # Aliases básicos
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    
+    # Aliases para commits semânticos
+    cm = commit -m
+    amend = commit --amend --no-edit
+    undo = reset HEAD~1 --mixed
+    undo-soft = reset HEAD~1 --soft
+    
+    # Aliases úteis para desenvolvimento
+    lg = log --oneline --graph --decorate --all
+    ls = log --oneline --graph --decorate
+    ll = log --oneline --graph --decorate --all --stat
+    lf = log --oneline --graph --decorate --follow
+    lp = log --oneline --graph --decorate --patch
+    
+    # Aliases para branches
+    bd = branch -d
+    bD = branch -D
+    bm = branch -m
+    ba = branch -a
+    brv = branch -v
+    
+    # Aliases para remotes
+    ra = remote add
+    rr = remote remove
+    rv = remote -v
+    ru = remote update
+    
+    # Aliases para stash
+    ss = stash
+    sp = stash pop
+    sl = stash list
+    sd = stash drop
+    
+    # Aliases para tags
+    ta = tag -a
+    tl = tag -l
+    td = tag -d
+
+[init]
+    # Branch padrão para novos repositórios
+    defaultBranch = main
+
+[push]
+    # Configuração de push
+    default = simple
+    
+[merge]
+    # Configuração de merge
+    tool = vimdiff
+
+[diff]
+    # Configuração de diff
+    tool = vimdiff
+
+[color]
+    # Cores para output
+    ui = auto
+    
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
