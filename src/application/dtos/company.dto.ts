@@ -1,3 +1,5 @@
+import { Company } from "../../domain/entities/company.entity";
+
 export class CreateCompanyDto {
   name: string;
   cnpj: string;
@@ -24,7 +26,7 @@ export class CompanyResponseDto {
   createdAt: Date;
   updatedAt: Date;
 
-  static fromEntity(company: any): CompanyResponseDto {
+  static fromEntity(company: Company): CompanyResponseDto {
     return {
       id: company.id,
       name: company.name,

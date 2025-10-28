@@ -1,4 +1,4 @@
-import { EmailRecipient } from '../entities/email-recipient.entity';
+import { EmailRecipient } from "../entities/email-recipient.entity";
 
 export interface EmailRecipientRepository {
   create(emailRecipient: EmailRecipient): Promise<EmailRecipient>;

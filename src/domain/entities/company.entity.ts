@@ -18,25 +18,18 @@ export class Company {
     favorite: boolean = false,
   ): Company {
     const now = new Date();
-    return new Company(
-      0,
-      name,
-      cnpj,
-      tradeName,
-      address,
-      favorite,
-      now,
-      now,
-    );
+    return new Company(0, name, cnpj, tradeName, address, favorite, now, now);
   }
 
-  update(data: Partial<{
-    name: string;
-    cnpj: string;
-    tradeName: string;
-    address: string;
-    favorite: boolean;
-  }>): Company {
+  update(
+    data: Partial<{
+      name: string;
+      cnpj: string;
+      tradeName: string;
+      address: string;
+      favorite: boolean;
+    }>,
+  ): Company {
     return new Company(
       this.id,
       data.name ?? this.name,

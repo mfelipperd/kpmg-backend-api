@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../prisma.service';
-import { EmailRecipient } from '../../../domain/entities/email-recipient.entity';
-import { EmailRecipientRepository } from '../../../domain/repositories/email-recipient.repository';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../prisma.service";
+import { EmailRecipient } from "../../../domain/entities/email-recipient.entity";
+import { EmailRecipientRepository } from "../../../domain/repositories/email-recipient.repository";
 
 @Injectable()
-export class PrismaEmailRecipientRepository implements EmailRecipientRepository {
+export class PrismaEmailRecipientRepository
+  implements EmailRecipientRepository
+{
   constructor(private readonly prisma: PrismaService) {}
 
   async create(emailRecipient: EmailRecipient): Promise<EmailRecipient> {
@@ -26,16 +28,19 @@ export class PrismaEmailRecipientRepository implements EmailRecipientRepository 
 
   async findAll(): Promise<EmailRecipient[]> {
     const recipients = await this.prisma.emailRecipient.findMany({
-      orderBy: { id: 'asc' },
+      orderBy: { id: "asc" },
     });
 
-    return recipients.map(recipient => new EmailRecipient(
-      recipient.id,
-      recipient.email,
-      recipient.active,
-      recipient.createdAt,
-      recipient.updatedAt,
-    ));
+    return recipients.map(
+      (recipient) =>
+        new EmailRecipient(
+          recipient.id,
+          recipient.email,
+          recipient.active,
+          recipient.createdAt,
+          recipient.updatedAt,
+        ),
+    );
   }
 
   async findById(id: number): Promise<EmailRecipient | null> {
@@ -77,19 +82,25 @@ export class PrismaEmailRecipientRepository implements EmailRecipientRepository 
   async findActiveRecipients(): Promise<EmailRecipient[]> {
     const recipients = await this.prisma.emailRecipient.findMany({
       where: { active: true },
-      orderBy: { id: 'asc' },
+      orderBy: { id: "asc" },
     });
 
-    return recipients.map(recipient => new EmailRecipient(
-      recipient.id,
-      recipient.email,
-      recipient.active,
-      recipient.createdAt,
-      recipient.updatedAt,
-    ));
+    return recipients.map(
+      (recipient) =>
+        new EmailRecipient(
+          recipient.id,
+          recipient.email,
+          recipient.active,
+          recipient.createdAt,
+          recipient.updatedAt,
+        ),
+    );
   }
 
-  async update(id: number, emailRecipient: EmailRecipient): Promise<EmailRecipient> {
+  async update(
+    id: number,
+    emailRecipient: EmailRecipient,
+  ): Promise<EmailRecipient> {
     const updated = await this.prisma.emailRecipient.update({
       where: { id },
       data: {

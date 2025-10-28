@@ -1,5 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { ValidationService, ValidationError } from '../../domain/services/validation.service';
+import { Injectable } from "@nestjs/common";
+import {
+  ValidationService,
+  ValidationError,
+} from "../../domain/services/validation.service";
 
 @Injectable()
 export class BusinessValidationService implements ValidationService {
@@ -12,47 +15,47 @@ export class BusinessValidationService implements ValidationService {
     const errors: string[] = [];
 
     if (!data.name || data.name.trim().length === 0) {
-      errors.push('Nome da empresa é obrigatório');
+      errors.push("Nome da empresa é obrigatório");
     }
 
     if (!data.cnpj || data.cnpj.trim().length === 0) {
-      errors.push('CNPJ é obrigatório');
+      errors.push("CNPJ é obrigatório");
     } else if (!this.isValidCNPJ(data.cnpj)) {
-      errors.push('CNPJ inválido');
+      errors.push("CNPJ inválido");
     }
 
     if (!data.tradeName || data.tradeName.trim().length === 0) {
-      errors.push('Nome fantasia é obrigatório');
+      errors.push("Nome fantasia é obrigatório");
     }
 
     if (!data.address || data.address.trim().length === 0) {
-      errors.push('Endereço é obrigatório');
+      errors.push("Endereço é obrigatório");
     }
 
     if (errors.length > 0) {
-      throw new ValidationError(errors.join(', '));
+      throw new ValidationError(errors.join(", "));
     }
+    return Promise.resolve();
   }
 
-  async validateEmailData(data: {
-    email: string;
-  }): Promise<void> {
+  async validateEmailData(data: { email: string }): Promise<void> {
     const errors: string[] = [];
 
     if (!data.email || data.email.trim().length === 0) {
-      errors.push('E-mail é obrigatório');
+      errors.push("E-mail é obrigatório");
     } else if (!this.isValidEmail(data.email)) {
-      errors.push('E-mail inválido');
+      errors.push("E-mail inválido");
     }
 
     if (errors.length > 0) {
-      throw new ValidationError(errors.join(', '));
+      throw new ValidationError(errors.join(", "));
     }
+    return Promise.resolve();
   }
 
   private isValidCNPJ(cnpj: string): boolean {
-    const cleanCNPJ = cnpj.replace(/[^\d]/g, '');
-    
+    const cleanCNPJ = cnpj.replace(/[^\d]/g, "");
+
     if (cleanCNPJ.length !== 14) {
       return false;
     }
@@ -70,7 +73,7 @@ export class BusinessValidationService implements ValidationService {
     }
 
     let remainder = sum % 11;
-    let digit1 = remainder < 2 ? 0 : 11 - remainder;
+    const digit1 = remainder < 2 ? 0 : 11 - remainder;
 
     if (parseInt(cleanCNPJ[12]) !== digit1) {
       return false;
@@ -85,7 +88,7 @@ export class BusinessValidationService implements ValidationService {
     }
 
     remainder = sum % 11;
-    let digit2 = remainder < 2 ? 0 : 11 - remainder;
+    const digit2 = remainder < 2 ? 0 : 11 - remainder;
 
     return parseInt(cleanCNPJ[13]) === digit2;
   }

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class HealthService {
@@ -7,31 +7,31 @@ export class HealthService {
 
   async getHealthStatus() {
     const startTime = Date.now();
-    
+
     try {
       await this.prismaService.$queryRaw`SELECT 1`;
-      
+
       const dbResponseTime = Date.now() - startTime;
-      
+
       return {
-        status: 'ok',
+        status: "ok",
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development',
-        version: process.env.npm_package_version || '1.0.0',
+        environment: process.env.NODE_ENV || "development",
+        version: process.env.npm_package_version || "1.0.0",
         checks: {
           database: {
-            status: 'ok',
+            status: "ok",
             responseTime: `${dbResponseTime}ms`,
           },
           memory: {
-            status: 'ok',
+            status: "ok",
             used: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
             total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`,
           },
           disk: {
-            status: 'ok',
-            free: 'available',
+            status: "ok",
+            free: "available",
           },
         },
         info: {
@@ -42,25 +42,27 @@ export class HealthService {
         },
       };
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       return {
-        status: 'error',
+        status: "error",
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development',
-        version: process.env.npm_package_version || '1.0.0',
+        environment: process.env.NODE_ENV || "development",
+        version: process.env.npm_package_version || "1.0.0",
         checks: {
           database: {
-            status: 'error',
-            error: error.message,
+            status: "error",
+            error: errorMessage,
           },
           memory: {
-            status: 'ok',
+            status: "ok",
             used: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
             total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`,
           },
           disk: {
-            status: 'ok',
-            free: 'available',
+            status: "ok",
+            free: "available",
           },
         },
         info: {
@@ -76,16 +78,18 @@ export class HealthService {
   async getHealthStatusSimple() {
     try {
       await this.prismaService.$queryRaw`SELECT 1`;
-      
+
       return {
-        status: 'ok',
+        status: "ok",
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       return {
-        status: 'error',
+        status: "error",
         timestamp: new Date().toISOString(),
-        error: error.message,
+        error: errorMessage,
       };
     }
   }

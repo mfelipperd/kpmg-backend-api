@@ -1,3 +1,5 @@
+import { EmailRecipient } from "../../domain/entities/email-recipient.entity";
+
 export class CreateEmailRecipientDto {
   email: string;
   active?: boolean;
@@ -15,7 +17,7 @@ export class EmailRecipientResponseDto {
   createdAt: Date;
   updatedAt: Date;
 
-  static fromEntity(emailRecipient: any): EmailRecipientResponseDto {
+  static fromEntity(emailRecipient: EmailRecipient): EmailRecipientResponseDto {
     return {
       id: emailRecipient.id,
       email: emailRecipient.email,

@@ -1,15 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
+
+interface CompanyNotificationData {
+  name: string;
+  cnpj: string;
+  tradeName: string;
+  address: string;
+  favorite?: boolean;
+  createdAt?: Date;
+}
 
 @Injectable()
 export class EmailTemplateService {
-  generateCompanyNotificationTemplate(company: any): string {
+  generateCompanyNotificationTemplate(
+    company: CompanyNotificationData
+  ): string {
     const formatDate = (date: string) => {
-      return new Date(date).toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
+      return new Date(date).toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     };
 
@@ -180,11 +191,19 @@ export class EmailTemplateService {
                 </div>
                 <div class="info-row">
                     <span class="info-label">Data de Cadastro</span>
-                    <span class="info-value">${formatDate(company.createdAt)}</span>
+                    <span class="info-value">${
+                      company.createdAt
+                        ? formatDate(
+                            company.createdAt instanceof Date
+                              ? company.createdAt.toISOString()
+                              : String(company.createdAt)
+                          )
+                        : new Date().toLocaleString("pt-BR")
+                    }</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Favorita</span>
-                    <span class="info-value">${company.favorite ? '⭐ Sim' : '❌ Não'}</span>
+                    <span class="info-value">${company.favorite ? "⭐ Sim" : "❌ Não"}</span>
                 </div>
             </div>
             <div style="text-align: center;">

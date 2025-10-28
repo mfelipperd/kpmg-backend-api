@@ -17,7 +17,7 @@ export interface CompanyDomainService {
 export class CompanyDomainServiceImpl implements CompanyDomainService {
   constructor(
     @Inject("CompanyRepository")
-    private readonly companyRepository: CompanyRepository
+    private readonly companyRepository: CompanyRepository,
   ) {}
 
   async checkCompanyExistsByCnpj(cnpj: string): Promise<boolean> {
@@ -37,7 +37,7 @@ export class CompanyDomainServiceImpl implements CompanyDomainService {
       data.cnpj,
       data.tradeName,
       data.address,
-      data.favorite || false
+      data.favorite || false,
     );
 
     return this.companyRepository.create(company);

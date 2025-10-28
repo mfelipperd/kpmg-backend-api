@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../prisma.service';
-import { Company } from '../../../domain/entities/company.entity';
-import { CompanyRepository } from '../../../domain/repositories/company.repository';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../prisma.service";
+import { Company } from "../../../domain/entities/company.entity";
+import { CompanyRepository } from "../../../domain/repositories/company.repository";
 
 @Injectable()
 export class PrismaCompanyRepository implements CompanyRepository {
@@ -32,19 +32,22 @@ export class PrismaCompanyRepository implements CompanyRepository {
 
   async findAll(): Promise<Company[]> {
     const companies = await this.prisma.company.findMany({
-      orderBy: { id: 'asc' },
+      orderBy: { id: "asc" },
     });
 
-    return companies.map(company => new Company(
-      company.id,
-      company.name,
-      company.cnpj,
-      company.tradeName,
-      company.address,
-      company.favorite,
-      company.createdAt,
-      company.updatedAt,
-    ));
+    return companies.map(
+      (company) =>
+        new Company(
+          company.id,
+          company.name,
+          company.cnpj,
+          company.tradeName,
+          company.address,
+          company.favorite,
+          company.createdAt,
+          company.updatedAt,
+        ),
+    );
   }
 
   async findById(id: number): Promise<Company | null> {

@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException, ConflictException, Inject } from '@nestjs/common';
-import { Company } from '../../../domain/entities/company.entity';
-import { CompanyRepository } from '../../../domain/repositories/company.repository';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  Inject,
+} from "@nestjs/common";
+import { Company } from "../../../domain/entities/company.entity";
+import { CompanyRepository } from "../../../domain/repositories/company.repository";
 
 export interface UpdateCompanyRequest {
   id: number;
@@ -14,20 +19,22 @@ export interface UpdateCompanyRequest {
 @Injectable()
 export class UpdateCompanyUseCase {
   constructor(
-    @Inject('CompanyRepository')
+    @Inject("CompanyRepository")
     private readonly companyRepository: CompanyRepository,
   ) {}
 
   async execute(request: UpdateCompanyRequest): Promise<Company> {
     const existingCompany = await this.companyRepository.findById(request.id);
     if (!existingCompany) {
-      throw new NotFoundException('Empresa não encontrada');
+      throw new NotFoundException("Empresa não encontrada");
     }
 
     if (request.cnpj && request.cnpj !== existingCompany.cnpj) {
-      const companyWithSameCnpj = await this.companyRepository.findByCnpj(request.cnpj);
+      const companyWithSameCnpj = await this.companyRepository.findByCnpj(
+        request.cnpj,
+      );
       if (companyWithSameCnpj && companyWithSameCnpj.id !== request.id) {
-        throw new ConflictException('CNPJ já cadastrado para outra empresa');
+        throw new ConflictException("CNPJ já cadastrado para outra empresa");
       }
     }
 

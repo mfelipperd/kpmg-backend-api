@@ -19,18 +19,22 @@ API para gerenciamento de empresas e destinatários de e-mail desenvolvida com N
 ## 🔧 Instalação
 
 ### 1. Clone o repositório
+
 ```bash
 git clone <url-do-repositorio>
 cd backend
 ```
 
 ### 2. Instale as dependências
+
 ```bash
 npm install
 ```
 
 ### 3. Configure as variáveis de ambiente
+
 Crie um arquivo `.env` na raiz do projeto:
+
 ```bash
 DATABASE_URL="postgresql://kpmg_user:kpmg_password@localhost:5432/kpmg_companydb"
 EMAIL_USER=seu-email@gmail.com
@@ -40,6 +44,7 @@ NODE_ENV=development
 ```
 
 ### 4. Execute com Docker
+
 ```bash
 docker compose up --build
 ```
@@ -47,11 +52,13 @@ docker compose up --build
 ## 🚀 Executando o Projeto
 
 ### Desenvolvimento
+
 ```bash
 npm run start:dev
 ```
 
 ### Produção
+
 ```bash
 npm run build
 npm run start:prod
@@ -66,6 +73,7 @@ A documentação completa está disponível no Swagger: **http://localhost:3000/
 ## 🔌 Endpoints
 
 ### Companies
+
 - `POST /companies` - Criar empresa
 - `GET /companies` - Listar empresas
 - `GET /companies/:id` - Buscar empresa por ID
@@ -73,12 +81,14 @@ A documentação completa está disponível no Swagger: **http://localhost:3000/
 - `DELETE /companies/:id` - Deletar empresa
 
 ### Emails
+
 - `POST /emails` - Adicionar destinatário
 - `GET /emails` - Listar destinatários
 - `PATCH /emails/:id` - Atualizar destinatário
 - `DELETE /emails/:id` - Deletar destinatário
 
 ### Health Check
+
 - `GET /health` - Verificação de saúde da aplicação
 - `GET /ping` - Ping simples
 

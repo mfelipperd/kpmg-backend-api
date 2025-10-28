@@ -1,11 +1,11 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { Company } from '../../../domain/entities/company.entity';
-import { CompanyRepository } from '../../../domain/repositories/company.repository';
+import { Injectable, Inject } from "@nestjs/common";
+import { Company } from "../../../domain/entities/company.entity";
+import { CompanyRepository } from "../../../domain/repositories/company.repository";
 
 @Injectable()
 export class GetCompaniesUseCase {
   constructor(
-    @Inject('CompanyRepository')
+    @Inject("CompanyRepository")
     private readonly companyRepository: CompanyRepository,
   ) {}
 

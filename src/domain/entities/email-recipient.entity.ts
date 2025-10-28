@@ -9,13 +9,7 @@ export class EmailRecipient {
 
   static create(email: string, active: boolean = true): EmailRecipient {
     const now = new Date();
-    return new EmailRecipient(
-      0,
-      email.trim().toLowerCase(),
-      active,
-      now,
-      now,
-    );
+    return new EmailRecipient(0, email.trim().toLowerCase(), active, now, now);
   }
 
   update(data: Partial<{ email: string; active: boolean }>): EmailRecipient {
