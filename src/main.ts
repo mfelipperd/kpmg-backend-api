@@ -23,7 +23,7 @@ async function bootstrap() {
           .flat();
         return new BadRequestException(messages.join(", "));
       },
-    }),
+    })
   );
 
   app.enableCors({
@@ -33,7 +33,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("Company Management API")
     .setDescription(
-      "API para gerenciamento de empresas e destinatários de e-mail",
+      "API para gerenciamento de empresas e destinatários de e-mail"
     )
     .setVersion("1.0")
     .addTag("companies", "Operações relacionadas a empresas")
@@ -45,7 +45,7 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  logger.log(`🚀 Application is running on: http://localhost:${port}`);
-  logger.log(`📚 API Documentation: http://localhost:${port}/api`);
+  logger.log(`Application is running on: http://localhost:${port}`);
+  logger.log(`API Documentation: http://localhost:${port}/api`);
 }
 void bootstrap();

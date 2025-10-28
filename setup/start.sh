@@ -1,21 +1,25 @@
 #!/bin/sh
 
 # Script de inicialização para o container
-echo "🚀 Iniciando aplicação..."
+echo "Iniciando aplicacao..."
 
 # Aguardar o banco de dados estar disponível
-echo "⏳ Aguardando banco de dados..."
+echo "Aguardando banco de dados..."
 until npx prisma db push --accept-data-loss; do
-  echo "Banco não disponível, aguardando..."
+  echo "Banco nao disponivel, aguardando..."
   sleep 2
 done
 
-echo "✅ Banco de dados conectado!"
+echo "Banco de dados conectado!"
 
 # Executar migrações
-echo "📦 Executando migrações..."
+echo "Executando migracoes..."
 npx prisma migrate deploy
 
+# Executar seed (popular banco de dados)
+echo "Populando banco de dados com dados iniciais..."
+npx prisma db seed || echo "Seed falhou ou ja foi executado"
+
 # Iniciar a aplicação
-echo "🎯 Iniciando aplicação NestJS..."
+echo "Iniciando aplicacao NestJS..."
 exec node dist/main.js

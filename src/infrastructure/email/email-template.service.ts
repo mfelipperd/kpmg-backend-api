@@ -12,7 +12,7 @@ interface CompanyNotificationData {
 @Injectable()
 export class EmailTemplateService {
   generateCompanyNotificationTemplate(
-    company: CompanyNotificationData,
+    company: CompanyNotificationData
   ): string {
     const formatDate = (date: string) => {
       return new Date(date).toLocaleString("pt-BR", {
@@ -196,14 +196,14 @@ export class EmailTemplateService {
                         ? formatDate(
                             company.createdAt instanceof Date
                               ? company.createdAt.toISOString()
-                              : String(company.createdAt),
+                              : String(company.createdAt)
                           )
                         : new Date().toLocaleString("pt-BR")
                     }</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Favorita</span>
-                    <span class="info-value">${company.favorite ? "⭐ Sim" : "❌ Não"}</span>
+                    <span class="info-value">${company.favorite ? "Sim" : "Nao"}</span>
                 </div>
             </div>
             <div style="text-align: center;">
@@ -340,9 +340,9 @@ export class EmailTemplateService {
                 <p>Você receberá notificações sobre:</p>
                 <div class="email-address">${email}</div>
                 <ul style="text-align: left; margin: 20px 0; color: #374151;">
-                    <li>✨ Novas empresas cadastradas</li>
-                    <li>📊 Atualizações do sistema</li>
-                    <li>🔔 Notificações importantes</li>
+                    <li>Novas empresas cadastradas</li>
+                    <li>Atualizacoes do sistema</li>
+                    <li>Notificacoes importantes</li>
                 </ul>
             </div>
             <div style="text-align: center;">

@@ -2,7 +2,7 @@
 
 API para gerenciamento de empresas e destinatários de e-mail desenvolvida com NestJS.
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **NestJS** - Framework Node.js
 - **TypeScript** - Linguagem de programação
@@ -10,13 +10,13 @@ API para gerenciamento de empresas e destinatários de e-mail desenvolvida com N
 - **PostgreSQL** - Banco de dados
 - **Docker** - Containerização
 
-## 📋 Pré-requisitos
+## Pre-requisitos
 
 - Node.js 18+
 - Docker e Docker Compose
 - npm ou yarn
 
-## 🔧 Instalação
+## Instalacao
 
 ### 1. Clone o repositório
 
@@ -49,7 +49,7 @@ NODE_ENV=development
 docker compose up --build
 ```
 
-## 🚀 Executando o Projeto
+## Executando o Projeto
 
 ### Desenvolvimento
 
@@ -66,11 +66,11 @@ npm run start:prod
 
 A API estará rodando em: **http://localhost:3000**
 
-## 📚 Documentação
+## Documentacao
 
 A documentação completa está disponível no Swagger: **http://localhost:3000/api**
 
-## 🔌 Endpoints
+## Endpoints
 
 ### Companies
 
@@ -92,14 +92,14 @@ A documentação completa está disponível no Swagger: **http://localhost:3000/
 - `GET /health` - Verificação de saúde da aplicação
 - `GET /ping` - Ping simples
 
-## 🧪 Testes
+## Testes
 
 ```bash
 npm run test
 npm run test:e2e
 ```
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 src/
@@ -110,7 +110,7 @@ src/
 └── main.ts
 ```
 
-## 🐳 Docker
+## Docker
 
 ```bash
 # Subir aplicação
@@ -120,7 +120,7 @@ docker compose up --build
 docker compose down
 ```
 
-## 📝 Scripts Disponíveis
+## Scripts Disponiveis
 
 ```bash
 npm run start:dev        # Desenvolvimento
@@ -129,7 +129,7 @@ npm run test            # Testes
 npm run lint            # Linter
 ```
 
-## 🤝 Contribuição
+## Contribuicao
 
 1. Faça um fork do projeto
 2. Crie uma branch para sua feature

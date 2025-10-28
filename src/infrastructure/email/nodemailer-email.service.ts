@@ -12,7 +12,7 @@ export class NodemailerEmailService implements EmailService {
   constructor(
     private readonly mailer: MailerService,
     private readonly config: ConfigService,
-    private readonly emailTemplate: EmailTemplateService,
+    private readonly emailTemplate: EmailTemplateService
   ) {}
 
   async sendCompanyNotificationEmail(
@@ -24,7 +24,7 @@ export class NodemailerEmailService implements EmailService {
           tradeName: string;
           address: string;
         },
-    recipients: string[],
+    recipients: string[]
   ): Promise<void> {
     if (!recipients.length) {
       this.logger.warn("Nenhum destinatário encontrado!");
@@ -46,7 +46,7 @@ export class NodemailerEmailService implements EmailService {
     await this.mailer.sendMail({
       from: `"Company API" <${this.config.get("EMAIL_USER")}>`,
       to: recipients,
-      subject: `🏢 Nova empresa cadastrada: ${company.name}`,
+      subject: `Nova empresa cadastrada: ${company.name}`,
       text: `Empresa "${company.name}" (CNPJ: ${company.cnpj}) foi cadastrada com sucesso no sistema!`,
       html: htmlTemplate,
     });
@@ -58,7 +58,7 @@ export class NodemailerEmailService implements EmailService {
 
     await this.mailer.sendMail({
       to: email,
-      subject: "✅ E-mail cadastrado com sucesso - Company API",
+      subject: "E-mail cadastrado com sucesso - Company API",
       text: `Seu e-mail foi cadastrado com sucesso no sistema. Você receberá notificações sobre novas empresas cadastradas.`,
       html: htmlTemplate,
     });

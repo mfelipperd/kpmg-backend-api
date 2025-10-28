@@ -26,7 +26,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       created.address,
       created.favorite,
       created.createdAt,
-      created.updatedAt
+      created.updatedAt,
     );
   }
 
@@ -45,8 +45,8 @@ export class PrismaCompanyRepository implements CompanyRepository {
           company.address,
           company.favorite,
           company.createdAt,
-          company.updatedAt
-        )
+          company.updatedAt,
+        ),
     );
   }
 
@@ -67,7 +67,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       company.address,
       company.favorite,
       company.createdAt,
-      company.updatedAt
+      company.updatedAt,
     );
   }
 
@@ -92,7 +92,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       company.address,
       company.favorite,
       company.createdAt,
-      company.updatedAt
+      company.updatedAt,
     );
   }
 
@@ -116,7 +116,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       updated.address,
       updated.favorite,
       updated.createdAt,
-      updated.updatedAt
+      updated.updatedAt,
     );
   }
 

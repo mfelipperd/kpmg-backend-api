@@ -2,7 +2,7 @@
 
 Esta pasta contém scripts e arquivos de configuração para setup do projeto.
 
-## 📁 Arquivos
+## Arquivos
 
 ### Scripts
 
@@ -26,7 +26,7 @@ Esta pasta contém scripts e arquivos de configuração para setup do projeto.
   - Configura o schema `public`
   - Executado automaticamente no primeiro startup do container
 
-## 🚀 Uso
+## Uso
 
 ### Configurar Git (primeira vez)
 
@@ -38,7 +38,7 @@ Esta pasta contém scripts e arquivos de configuração para setup do projeto.
 
 Os scripts são usados automaticamente pelo `docker-compose.yml` e `Dockerfile`.
 
-## 📝 Notas
+## Notas
 
 - Todos os scripts são executáveis
 - O `init.sql` é executado automaticamente pelo PostgreSQL quando o container é criado pela primeira vez
