@@ -12,7 +12,7 @@ interface CompanyNotificationData {
 @Injectable()
 export class EmailTemplateService {
   generateCompanyNotificationTemplate(
-    company: CompanyNotificationData
+    company: CompanyNotificationData,
   ): string {
     const formatDate = (date: string) => {
       return new Date(date).toLocaleString("pt-BR", {
@@ -196,7 +196,7 @@ export class EmailTemplateService {
                         ? formatDate(
                             company.createdAt instanceof Date
                               ? company.createdAt.toISOString()
-                              : String(company.createdAt)
+                              : String(company.createdAt),
                           )
                         : new Date().toLocaleString("pt-BR")
                     }</span>

@@ -1,4 +1,4 @@
-import { Injectable, Inject, ConflictException } from "@nestjs/common";
+import { Injectable, Inject, ConflictException, Logger } from "@nestjs/common";
 import { Company } from "../../../domain/entities/company.entity";
 import { CompanyRepository } from "../../../domain/repositories/company.repository";
 import { EmailRecipientRepository } from "../../../domain/repositories/email-recipient.repository";
@@ -21,6 +21,8 @@ export interface CreateCompanyResponse {
 
 @Injectable()
 export class CreateCompanyUseCase {
+  private readonly logger = new Logger(CreateCompanyUseCase.name);
+
   constructor(
     @Inject("CompanyRepository")
     private readonly companyRepository: CompanyRepository,
@@ -35,17 +37,27 @@ export class CreateCompanyUseCase {
   ) {}
 
   async execute(request: CreateCompanyRequest): Promise<CreateCompanyResponse> {
+    this.logger.log(
+      `Iniciando criação de empresa: ${request.name} (CNPJ: ${request.cnpj})`,
+    );
+
     await this.validationService.validateCompanyData(request);
 
     const companyExists =
       await this.companyDomainService.checkCompanyExistsByCnpj(request.cnpj);
     if (companyExists) {
+      this.logger.warn(
+        `Tentativa de cadastrar empresa com CNPJ já existente: ${request.cnpj}`,
+      );
       throw new ConflictException(
         "Já existe uma empresa cadastrada com este CNPJ",
       );
     }
 
     const savedCompany = await this.companyDomainService.createCompany(request);
+    this.logger.log(
+      `Empresa criada com sucesso: ID ${savedCompany.id} - ${savedCompany.name}`,
+    );
 
     const activeRecipients =
       await this.emailRecipientRepository.findActiveRecipients();
@@ -54,6 +66,16 @@ export class CreateCompanyUseCase {
         savedCompany,
         activeRecipients,
       );
+
+    if (!notificationResult.success) {
+      this.logger.error(
+        `Falha ao enviar notificações por e-mail para empresa ${savedCompany.id}: ${notificationResult.error}`,
+      );
+    } else {
+      this.logger.log(
+        `Notificações enviadas para ${activeRecipients.length} destinatário(s)`,
+      );
+    }
 
     return {
       company: savedCompany,

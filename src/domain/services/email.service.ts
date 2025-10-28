@@ -10,7 +10,7 @@ export interface EmailService {
           tradeName: string;
           address: string;
         },
-    recipients: string[]
+    recipients: string[],
   ): Promise<void>;
 
   sendEmailConfirmation(email: string): Promise<void>;

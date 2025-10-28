@@ -72,8 +72,12 @@ export class PrismaCompanyRepository implements CompanyRepository {
   }
 
   async findByCnpj(cnpj: string): Promise<Company | null> {
-    const company = await this.prisma.company.findUnique({
-      where: { cnpj },
+    // Normalizar CNPJ removendo formatação para busca
+    const cleanCnpj = cnpj.replace(/[^\d]/g, "");
+    const company = await this.prisma.company.findFirst({
+      where: {
+        OR: [{ cnpj: cleanCnpj }, { cnpj: cnpj }],
+      },
     });
 
     if (!company) {

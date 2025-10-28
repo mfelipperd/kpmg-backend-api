@@ -1,11 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import {
-  ValidationService,
-  ValidationError,
-} from "../../domain/services/validation.service";
+import { Injectable, BadRequestException, Logger } from "@nestjs/common";
+import { ValidationService } from "../../domain/services/validation.service";
 
 @Injectable()
 export class BusinessValidationService implements ValidationService {
+  private readonly logger = new Logger(BusinessValidationService.name);
+
   async validateCompanyData(data: {
     name: string;
     cnpj: string;
@@ -22,6 +21,7 @@ export class BusinessValidationService implements ValidationService {
       errors.push("CNPJ é obrigatório");
     } else if (!this.isValidCNPJ(data.cnpj)) {
       errors.push("CNPJ inválido");
+      this.logger.warn(`Tentativa de cadastro com CNPJ inválido: ${data.cnpj}`);
     }
 
     if (!data.tradeName || data.tradeName.trim().length === 0) {
@@ -33,7 +33,8 @@ export class BusinessValidationService implements ValidationService {
     }
 
     if (errors.length > 0) {
-      throw new ValidationError(errors.join(", "));
+      this.logger.warn(`Validação falhou: ${errors.join(", ")}`);
+      throw new BadRequestException(errors.join(", "));
     }
     return Promise.resolve();
   }
@@ -45,10 +46,14 @@ export class BusinessValidationService implements ValidationService {
       errors.push("E-mail é obrigatório");
     } else if (!this.isValidEmail(data.email)) {
       errors.push("E-mail inválido");
+      this.logger.warn(
+        `Tentativa de cadastro com e-mail inválido: ${data.email}`,
+      );
     }
 
     if (errors.length > 0) {
-      throw new ValidationError(errors.join(", "));
+      this.logger.warn(`Validação de e-mail falhou: ${errors.join(", ")}`);
+      throw new BadRequestException(errors.join(", "));
     }
     return Promise.resolve();
   }

@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { PresentationModule } from "./presentation/presentation.module";
 import { InfrastructureModule } from "./infrastructure/infrastructure.module";
-import { HealthModule } from "./presentation/health/health.module";
+import { HealthModule } from "./infrastructure/health/health.module";
 
 @Module({
   imports: [
