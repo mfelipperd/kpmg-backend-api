@@ -18,8 +18,8 @@ npx prisma migrate deploy
 
 # Executar seed (popular banco de dados)
 echo "Populando banco de dados com dados iniciais..."
-npx prisma db seed || echo "Seed falhou ou ja foi executado"
+node dist/prisma/seed.js || echo "Seed falhou ou ja foi executado"
 
 # Iniciar a aplicação
 echo "Iniciando aplicacao NestJS..."
-exec node dist/main.js
+exec node dist/src/main.js
