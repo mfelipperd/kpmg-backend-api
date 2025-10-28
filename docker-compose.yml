@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 # Docker Compose para Teste Avaliativo KPMG - Vaga Pleno
 # Configuração para desenvolvimento local com backend NestJS e PostgreSQL
@@ -9,14 +9,14 @@ services:
     image: postgres:16-alpine
     container_name: kpmg-company-db
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
       POSTGRES_USER: kpmg_user
       POSTGRES_PASSWORD: kpmg_password
       POSTGRES_DB: kpmg_companydb
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - kpmg-network
     healthcheck:
@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile
     container_name: kpmg-backend
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://kpmg_user:kpmg_password@db:5432/kpmg_companydb?schema=public

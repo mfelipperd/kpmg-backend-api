@@ -48,7 +48,7 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/prisma ./prisma
 
 # Copiar script de inicialização
-COPY start.sh ./start.sh
+COPY setup/start.sh ./start.sh
 
 # Mudar propriedade dos arquivos para o usuário não-root
 RUN chown -R nestjs:nodejs /app && chmod +x /app/start.sh
