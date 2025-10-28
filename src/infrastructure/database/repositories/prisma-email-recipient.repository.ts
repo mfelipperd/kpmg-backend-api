@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../../prisma.service";
+import { PrismaService } from "../prisma.service";
 import { EmailRecipient } from "../../../domain/entities/email-recipient.entity";
 import { EmailRecipientRepository } from "../../../domain/repositories/email-recipient.repository";
 
@@ -22,7 +22,7 @@ export class PrismaEmailRecipientRepository
       created.email,
       created.active,
       created.createdAt,
-      created.updatedAt,
+      created.updatedAt
     );
   }
 
@@ -38,8 +38,8 @@ export class PrismaEmailRecipientRepository
           recipient.email,
           recipient.active,
           recipient.createdAt,
-          recipient.updatedAt,
-        ),
+          recipient.updatedAt
+        )
     );
   }
 
@@ -57,7 +57,7 @@ export class PrismaEmailRecipientRepository
       recipient.email,
       recipient.active,
       recipient.createdAt,
-      recipient.updatedAt,
+      recipient.updatedAt
     );
   }
 
@@ -75,7 +75,7 @@ export class PrismaEmailRecipientRepository
       recipient.email,
       recipient.active,
       recipient.createdAt,
-      recipient.updatedAt,
+      recipient.updatedAt
     );
   }
 
@@ -92,14 +92,14 @@ export class PrismaEmailRecipientRepository
           recipient.email,
           recipient.active,
           recipient.createdAt,
-          recipient.updatedAt,
-        ),
+          recipient.updatedAt
+        )
     );
   }
 
   async update(
     id: number,
-    emailRecipient: EmailRecipient,
+    emailRecipient: EmailRecipient
   ): Promise<EmailRecipient> {
     const updated = await this.prisma.emailRecipient.update({
       where: { id },
@@ -114,7 +114,7 @@ export class PrismaEmailRecipientRepository
       updated.email,
       updated.active,
       updated.createdAt,
-      updated.updatedAt,
+      updated.updatedAt
     );
   }
 
