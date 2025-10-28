@@ -37,11 +37,18 @@ Crie um arquivo `.env` na raiz do projeto:
 
 ```bash
 DATABASE_URL="postgresql://kpmg_user:kpmg_password@localhost:5432/kpmg_companydb"
-EMAIL_USER=seu-email@gmail.com
-EMAIL_PASS=sua-senha-de-app
 PORT=3000
 NODE_ENV=development
+
+# Configuração de e-mail (opcional - obrigatório apenas para envio de e-mails)
+EMAIL_USER=seu-email@gmail.com
+EMAIL_PASS=sua-senha-de-app
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
 ```
+
+**Nota:** As variáveis de e-mail são opcionais. Se não configuradas, a aplicação funcionará normalmente, mas não enviará e-mails de notificação.
 
 ### 4. Execute com Docker
 

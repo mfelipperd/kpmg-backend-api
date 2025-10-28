@@ -33,10 +33,10 @@ services:
     container_name: kpmg-backend
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
-      NODE_ENV: development
-      DATABASE_URL: postgresql://kpmg_user:kpmg_password@db:5432/kpmg_companydb?schema=public
-      PORT: 3000
+      - DATABASE_URL=postgresql://kpmg_user:kpmg_password@db:5432/kpmg_companydb?schema=public
     depends_on:
       db:
         condition: service_healthy

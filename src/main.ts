@@ -23,7 +23,7 @@ async function bootstrap() {
           .flat();
         return new BadRequestException(messages.join(", "));
       },
-    })
+    }),
   );
 
   app.enableCors({
@@ -33,7 +33,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("Company Management API")
     .setDescription(
-      "API para gerenciamento de empresas e destinatários de e-mail"
+      "API para gerenciamento de empresas e destinatários de e-mail",
     )
     .setVersion("1.0")
     .addTag("companies", "Operações relacionadas a empresas")
