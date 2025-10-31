@@ -12,7 +12,7 @@ export class NodemailerEmailService implements EmailService {
   constructor(
     private readonly mailer: MailerService,
     private readonly config: ConfigService,
-    private readonly emailTemplate: EmailTemplateService,
+    private readonly emailTemplate: EmailTemplateService
   ) {}
 
   async sendCompanyNotificationEmail(
@@ -24,7 +24,7 @@ export class NodemailerEmailService implements EmailService {
           tradeName: string;
           address: string;
         },
-    recipients: string[],
+    recipients: string[]
   ): Promise<void> {
     if (!recipients.length) {
       this.logger.warn("Nenhum destinatário encontrado!");
@@ -33,10 +33,10 @@ export class NodemailerEmailService implements EmailService {
 
     if (!this.isEmailConfigured()) {
       this.logger.warn(
-        "Credenciais de e-mail não configuradas. E-mail não será enviado.",
+        "Credenciais de e-mail não configuradas. E-mail não será enviado."
       );
       throw new Error(
-        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente.",
+        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente."
       );
     }
 
@@ -55,57 +55,129 @@ export class NodemailerEmailService implements EmailService {
     const emailUser =
       this.config.get<string>("EMAIL_USER") || "noreply@companyapi.com";
 
-    try {
-      await this.mailer.sendMail({
-        from: `"Company API" <${emailUser}>`,
-        to: recipients,
-        subject: `Nova empresa cadastrada: ${company.name}`,
-        text: `Empresa "${company.name}" (CNPJ: ${company.cnpj}) foi cadastrada com sucesso no sistema!`,
-        html: htmlTemplate,
-      });
-      this.logger.log(
-        `E-mail de notificação enviado para ${recipients.length} destinatário(s)`,
-      );
-    } catch (error) {
-      this.logger.error(
-        `Erro ao enviar e-mail de notificação: ${error instanceof Error ? error.message : String(error)}`,
-      );
-      throw error;
+    const maxRetries = 3;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await this.mailer.sendMail({
+          from: `"Company API" <${emailUser}>`,
+          to: recipients,
+          subject: `Nova empresa cadastrada: ${company.name}`,
+          text: `Empresa "${company.name}" (CNPJ: ${company.cnpj}) foi cadastrada com sucesso no sistema!`,
+          html: htmlTemplate,
+        });
+        this.logger.log(
+          `E-mail de notificação enviado para ${recipients.length} destinatário(s)`
+        );
+        return;
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+
+        if (attempt < maxRetries) {
+          const waitTime = attempt * 2000;
+          this.logger.warn(
+            `Tentativa ${attempt}/${maxRetries} falhou. Aguardando ${waitTime}ms antes de tentar novamente...`
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          continue;
+        }
+
+        this.logger.error(
+          `Erro ao enviar e-mail de notificação após ${maxRetries} tentativas: ${errorMessage}`,
+          error instanceof Error ? error.stack : undefined
+        );
+
+        if (
+          errorMessage.includes("Invalid login") ||
+          errorMessage.includes("Cannot authenticate")
+        ) {
+          this.logger.error(
+            "Erro de autenticação do Gmail. Verifique:\n" +
+              "1. Se está usando App Password (não a senha normal)\n" +
+              "2. Se a autenticação de dois fatores está habilitada\n" +
+              "3. Se as credenciais estão corretas nas variáveis de ambiente\n" +
+              "4. Se há problemas temporários no Gmail (tente novamente mais tarde)"
+          );
+        }
+
+        throw error;
+      }
     }
   }
 
   async sendEmailConfirmation(email: string): Promise<void> {
     if (!this.isEmailConfigured()) {
       this.logger.warn(
-        "Credenciais de e-mail não configuradas. E-mail de confirmação não será enviado.",
+        "Credenciais de e-mail não configuradas. E-mail de confirmação não será enviado."
       );
       throw new Error(
-        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente.",
+        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente."
       );
     }
 
     const htmlTemplate =
       this.emailTemplate.generateEmailConfirmationTemplate(email);
 
-    try {
-      await this.mailer.sendMail({
-        to: email,
-        subject: "E-mail cadastrado com sucesso - Company API",
-        text: `Seu e-mail foi cadastrado com sucesso no sistema. Você receberá notificações sobre novas empresas cadastradas.`,
-        html: htmlTemplate,
-      });
-      this.logger.log(`E-mail de confirmação enviado para: ${email}`);
-    } catch (error) {
-      this.logger.error(
-        `Erro ao enviar e-mail de confirmação: ${error instanceof Error ? error.message : String(error)}`,
-      );
-      throw error;
+    const maxRetries = 3;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await this.mailer.sendMail({
+          to: email,
+          subject: "E-mail cadastrado com sucesso - Company API",
+          text: `Seu e-mail foi cadastrado com sucesso no sistema. Você receberá notificações sobre novas empresas cadastradas.`,
+          html: htmlTemplate,
+        });
+        this.logger.log(`E-mail de confirmação enviado para: ${email}`);
+        return;
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+
+        if (attempt < maxRetries) {
+          const waitTime = attempt * 2000;
+          this.logger.warn(
+            `Tentativa ${attempt}/${maxRetries} falhou. Aguardando ${waitTime}ms antes de tentar novamente...`
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          continue;
+        }
+
+        this.logger.error(
+          `Erro ao enviar e-mail de confirmação após ${maxRetries} tentativas: ${errorMessage}`,
+          error instanceof Error ? error.stack : undefined
+        );
+
+        if (
+          errorMessage.includes("Invalid login") ||
+          errorMessage.includes("Cannot authenticate")
+        ) {
+          this.logger.error(
+            "Erro de autenticação do Gmail. Verifique:\n" +
+              "1. Se está usando App Password (não a senha normal)\n" +
+              "2. Se a autenticação de dois fatores está habilitada\n" +
+              "3. Se as credenciais estão corretas nas variáveis de ambiente\n" +
+              "4. Se há problemas temporários no Gmail (tente novamente mais tarde)"
+          );
+        }
+
+        throw error;
+      }
     }
   }
 
   private isEmailConfigured(): boolean {
     const emailUser = this.config.get<string>("EMAIL_USER");
     const emailPass = this.config.get<string>("EMAIL_PASS");
-    return !!(emailUser && emailPass);
+    const configured = !!(emailUser && emailPass);
+
+    if (!configured) {
+      this.logger.debug(
+        `Email não configurado - EMAIL_USER: ${emailUser ? "✓" : "✗"}, EMAIL_PASS: ${emailPass ? "✓" : "✗"}`
+      );
+    }
+
+    return configured;
   }
 }

@@ -50,6 +50,30 @@ EMAIL_SECURE=false
 
 **Nota:** As variáveis de e-mail são opcionais. Se não configuradas, a aplicação funcionará normalmente, mas não enviará e-mails de notificação.
 
+### Configuração do Gmail
+
+Para usar o Gmail como serviço de e-mail, você **deve** usar um **App Password** (senha de app), não a senha normal da sua conta.
+
+#### Como gerar um App Password no Gmail:
+
+1. Acesse sua conta Google: https://myaccount.google.com/
+2. Ative a **Autenticação de dois fatores** (2FA) se ainda não estiver ativada
+3. Vá em **Segurança** > **Senhas de app**
+4. Selecione **App** como "Outro (nome personalizado)"
+5. Digite "Company API" ou qualquer nome de sua escolha
+6. Clique em **Gerar**
+7. Copie a senha de 16 caracteres gerada (sem espaços)
+8. Use essa senha no `EMAIL_PASS` do arquivo `.env`
+
+**Importante:**
+- Use a senha de app gerada, não a senha normal do Gmail
+- A senha de app tem 16 caracteres e não contém espaços
+- Se receber erro "Cannot authenticate", verifique:
+  - Se está usando App Password (não senha normal)
+  - Se o 2FA está ativado
+  - Se as credenciais estão corretas (sem espaços extras)
+  - Se há problemas temporários no Gmail (tente novamente mais tarde)
+
 ### 4. Execute com Docker
 
 ```bash

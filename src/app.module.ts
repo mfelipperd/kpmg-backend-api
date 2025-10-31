@@ -8,6 +8,7 @@ interface SmtpTransportConfig {
   host: string;
   port: number;
   secure: boolean;
+  requireTLS?: boolean;
   auth?: {
     user: string;
     pass: string;
@@ -15,6 +16,9 @@ interface SmtpTransportConfig {
   tls: {
     rejectUnauthorized: boolean;
   };
+  connectionTimeout?: number;
+  greetingTimeout?: number;
+  socketTimeout?: number;
 }
 
 @Module({
@@ -26,20 +30,30 @@ interface SmtpTransportConfig {
       useFactory: (configService: ConfigService) => {
         const emailUser = configService.get<string>("EMAIL_USER");
         const emailPass = configService.get<string>("EMAIL_PASS");
+        const emailHost = configService.get<string>(
+          "EMAIL_HOST",
+          "smtp.gmail.com"
+        );
+        const emailPort = configService.get<number>("EMAIL_PORT", 587);
+        const emailSecure = configService.get<boolean>("EMAIL_SECURE", false);
 
         const transport: SmtpTransportConfig = {
-          host: configService.get<string>("EMAIL_HOST", "smtp.gmail.com"),
-          port: configService.get<number>("EMAIL_PORT", 587),
-          secure: configService.get<boolean>("EMAIL_SECURE", false),
+          host: emailHost,
+          port: emailPort,
+          secure: emailSecure,
+          requireTLS: !emailSecure,
           tls: {
             rejectUnauthorized: false,
           },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 10000,
         };
 
         if (emailUser && emailPass) {
           transport.auth = {
-            user: emailUser,
-            pass: emailPass,
+            user: emailUser.trim(),
+            pass: emailPass.trim(),
           };
         }
 
@@ -47,7 +61,7 @@ interface SmtpTransportConfig {
           transport,
           defaults: {
             from: emailUser
-              ? `"Company API" <${emailUser}>`
+              ? `"Company API" <${emailUser.trim()}>`
               : '"Company API" <noreply@companyapi.com>',
           },
         };
