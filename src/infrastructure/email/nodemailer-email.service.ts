@@ -12,7 +12,7 @@ export class NodemailerEmailService implements EmailService {
   constructor(
     private readonly mailer: MailerService,
     private readonly config: ConfigService,
-    private readonly emailTemplate: EmailTemplateService
+    private readonly emailTemplate: EmailTemplateService,
   ) {}
 
   async sendCompanyNotificationEmail(
@@ -24,7 +24,7 @@ export class NodemailerEmailService implements EmailService {
           tradeName: string;
           address: string;
         },
-    recipients: string[]
+    recipients: string[],
   ): Promise<void> {
     if (!recipients.length) {
       this.logger.warn("Nenhum destinatário encontrado!");
@@ -33,10 +33,10 @@ export class NodemailerEmailService implements EmailService {
 
     if (!this.isEmailConfigured()) {
       this.logger.warn(
-        "Credenciais de e-mail não configuradas. E-mail não será enviado."
+        "Credenciais de e-mail não configuradas. E-mail não será enviado.",
       );
       throw new Error(
-        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente."
+        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente.",
       );
     }
 
@@ -64,11 +64,11 @@ export class NodemailerEmailService implements EmailService {
         html: htmlTemplate,
       });
       this.logger.log(
-        `E-mail de notificação enviado para ${recipients.length} destinatário(s)`
+        `E-mail de notificação enviado para ${recipients.length} destinatário(s)`,
       );
     } catch (error) {
       this.logger.error(
-        `Erro ao enviar e-mail de notificação: ${error instanceof Error ? error.message : String(error)}`
+        `Erro ao enviar e-mail de notificação: ${error instanceof Error ? error.message : String(error)}`,
       );
       throw error;
     }
@@ -77,10 +77,10 @@ export class NodemailerEmailService implements EmailService {
   async sendEmailConfirmation(email: string): Promise<void> {
     if (!this.isEmailConfigured()) {
       this.logger.warn(
-        "Credenciais de e-mail não configuradas. E-mail de confirmação não será enviado."
+        "Credenciais de e-mail não configuradas. E-mail de confirmação não será enviado.",
       );
       throw new Error(
-        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente."
+        "Serviço de e-mail não configurado. Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente.",
       );
     }
 
@@ -97,7 +97,7 @@ export class NodemailerEmailService implements EmailService {
       this.logger.log(`E-mail de confirmação enviado para: ${email}`);
     } catch (error) {
       this.logger.error(
-        `Erro ao enviar e-mail de confirmação: ${error instanceof Error ? error.message : String(error)}`
+        `Erro ao enviar e-mail de confirmação: ${error instanceof Error ? error.message : String(error)}`,
       );
       throw error;
     }

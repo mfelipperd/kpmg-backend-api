@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { PresentationModule } from "./presentation/presentation.module";
 import { InfrastructureModule } from "./infrastructure/infrastructure.module";
-import { HealthModule } from "./infrastructure/health/health.module";
 
 interface SmtpTransportConfig {
   host: string;
@@ -57,7 +56,6 @@ interface SmtpTransportConfig {
     }),
     InfrastructureModule,
     PresentationModule,
-    HealthModule,
   ],
 })
 export class AppModule {}

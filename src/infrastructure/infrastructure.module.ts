@@ -4,8 +4,7 @@ import { PrismaCompanyRepository } from "./database/repositories/prisma-company.
 import { PrismaEmailRecipientRepository } from "./database/repositories/prisma-email-recipient.repository";
 import { NodemailerEmailService } from "./email/nodemailer-email.service";
 import { EmailTemplateService } from "./email/email-template.service";
-import { BusinessValidationService } from "./validation/business-validation.service";
-import { EmailNotificationService } from "./notification/email-notification.service";
+
 import { CompanyDomainServiceImpl } from "../domain/services/company-domain.service";
 
 @Module({
@@ -25,14 +24,6 @@ import { CompanyDomainServiceImpl } from "../domain/services/company-domain.serv
       useClass: NodemailerEmailService,
     },
     {
-      provide: "ValidationService",
-      useClass: BusinessValidationService,
-    },
-    {
-      provide: "NotificationService",
-      useClass: EmailNotificationService,
-    },
-    {
       provide: "CompanyDomainService",
       useClass: CompanyDomainServiceImpl,
     },
@@ -41,8 +32,6 @@ import { CompanyDomainServiceImpl } from "../domain/services/company-domain.serv
     "CompanyRepository",
     "EmailRecipientRepository",
     "EmailService",
-    "ValidationService",
-    "NotificationService",
     "CompanyDomainService",
   ],
 })

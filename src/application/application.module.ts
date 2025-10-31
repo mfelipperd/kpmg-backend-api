@@ -8,6 +8,8 @@ import { CreateEmailRecipientUseCase } from "./use-cases/email-recipient/create-
 import { GetEmailRecipientsUseCase } from "./use-cases/email-recipient/get-email-recipients.use-case";
 import { UpdateEmailRecipientUseCase } from "./use-cases/email-recipient/update-email-recipient.use-case";
 import { DeleteEmailRecipientUseCase } from "./use-cases/email-recipient/delete-email-recipient.use-case";
+import { EmailNotificationUseCase } from "./use-cases/notification/email-notification.use-case";
+import { ValidateDataUseCase } from "./use-cases/validation/validate-data.use-case";
 import { InfrastructureModule } from "../infrastructure/infrastructure.module";
 
 @Module({
@@ -22,6 +24,16 @@ import { InfrastructureModule } from "../infrastructure/infrastructure.module";
     GetEmailRecipientsUseCase,
     UpdateEmailRecipientUseCase,
     DeleteEmailRecipientUseCase,
+    EmailNotificationUseCase,
+    ValidateDataUseCase,
+    {
+      provide: "NotificationService",
+      useClass: EmailNotificationUseCase,
+    },
+    {
+      provide: "ValidationService",
+      useClass: ValidateDataUseCase,
+    },
   ],
   exports: [
     CreateCompanyUseCase,
@@ -33,6 +45,8 @@ import { InfrastructureModule } from "../infrastructure/infrastructure.module";
     GetEmailRecipientsUseCase,
     UpdateEmailRecipientUseCase,
     DeleteEmailRecipientUseCase,
+    "NotificationService",
+    "ValidationService",
   ],
 })
 export class ApplicationModule {}

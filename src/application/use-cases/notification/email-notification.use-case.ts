@@ -1,22 +1,20 @@
 import { Injectable, Inject } from "@nestjs/common";
-import {
-  NotificationService,
-  NotificationResult,
-} from "../../domain/services/notification.service";
-import { Company } from "../../domain/entities/company.entity";
-import { EmailRecipient } from "../../domain/entities/email-recipient.entity";
-import { EmailService } from "../../domain/services/email.service";
+
+import { Company } from "../../../domain/entities/company.entity";
+import { EmailRecipient } from "../../../domain/entities/email-recipient.entity";
+import { EmailService } from "../../../domain/services/email.service";
+import { NotificationResult } from "src/domain/services/notification.service";
 
 @Injectable()
-export class EmailNotificationService implements NotificationService {
+export class EmailNotificationUseCase {
   constructor(
     @Inject("EmailService")
-    private readonly emailService: EmailService,
+    private readonly emailService: EmailService
   ) {}
 
   async notifyCompanyCreated(
     company: Company,
-    recipients: EmailRecipient[],
+    recipients: EmailRecipient[]
   ): Promise<NotificationResult> {
     try {
       if (recipients.length === 0) {
@@ -29,7 +27,7 @@ export class EmailNotificationService implements NotificationService {
       const recipientEmails = recipients.map((r) => r.email);
       await this.emailService.sendCompanyNotificationEmail(
         company,
-        recipientEmails,
+        recipientEmails
       );
 
       return {

@@ -1,7 +1,7 @@
 import { Injectable, ConflictException, Inject, Logger } from "@nestjs/common";
 import { EmailRecipient } from "../../../domain/entities/email-recipient.entity";
 import { EmailRecipientRepository } from "../../../domain/repositories/email-recipient.repository";
-import { EmailService } from "../../../domain/services/email.service";
+import { NotificationService } from "../../../domain/services/notification.service";
 
 export interface CreateEmailRecipientRequest {
   email: string;
@@ -15,46 +15,44 @@ export class CreateEmailRecipientUseCase {
   constructor(
     @Inject("EmailRecipientRepository")
     private readonly emailRecipientRepository: EmailRecipientRepository,
-    @Inject("EmailService")
-    private readonly emailService: EmailService,
+    @Inject("NotificationService")
+    private readonly notificationService: NotificationService
   ) {}
 
   async execute(request: CreateEmailRecipientRequest): Promise<EmailRecipient> {
     const normalizedEmail = request.email.trim().toLowerCase();
     this.logger.log(
-      `Cadastrando novo destinatário de e-mail: ${normalizedEmail}`,
+      `Cadastrando novo destinatário de e-mail: ${normalizedEmail}`
     );
 
     const existingRecipient =
       await this.emailRecipientRepository.findByEmail(normalizedEmail);
     if (existingRecipient) {
       this.logger.warn(
-        `Tentativa de cadastrar e-mail já existente: ${normalizedEmail}`,
+        `Tentativa de cadastrar e-mail já existente: ${normalizedEmail}`
       );
       throw new ConflictException("Este e-mail já está cadastrado");
     }
 
     const emailRecipient = EmailRecipient.create(
       normalizedEmail,
-      request.active,
+      request.active
     );
     const savedRecipient =
       await this.emailRecipientRepository.create(emailRecipient);
 
     this.logger.log(
-      `E-mail cadastrado com sucesso: ID ${savedRecipient.id} - ${normalizedEmail}`,
+      `E-mail cadastrado com sucesso: ID ${savedRecipient.id} - ${normalizedEmail}`
     );
 
-    try {
-      await this.emailService.sendEmailConfirmation(normalizedEmail);
-      this.logger.log(`E-mail de confirmação enviado para: ${normalizedEmail}`);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+    const notificationResult =
+      await this.notificationService.notifyEmailConfirmation(normalizedEmail);
+    if (!notificationResult.success) {
       this.logger.error(
-        `Erro ao enviar e-mail de confirmação para ${normalizedEmail}: ${errorMessage}`,
-        error instanceof Error ? error.stack : undefined,
+        `Erro ao enviar e-mail de confirmação para ${normalizedEmail}: ${notificationResult.error}`
       );
+    } else {
+      this.logger.log(`E-mail de confirmação enviado para: ${normalizedEmail}`);
     }
 
     return savedRecipient;

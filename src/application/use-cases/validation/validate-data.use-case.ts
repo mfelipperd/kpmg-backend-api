@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException, Logger } from "@nestjs/common";
-import { ValidationService } from "../../domain/services/validation.service";
+import { ValidationService } from "../../../domain/services/validation.service";
 
 @Injectable()
-export class BusinessValidationService implements ValidationService {
-  private readonly logger = new Logger(BusinessValidationService.name);
+export class ValidateDataUseCase implements ValidationService {
+  private readonly logger = new Logger(ValidateDataUseCase.name);
 
   async validateCompanyData(data: {
     name: string;
@@ -47,7 +47,7 @@ export class BusinessValidationService implements ValidationService {
     } else if (!this.isValidEmail(data.email)) {
       errors.push("E-mail inválido");
       this.logger.warn(
-        `Tentativa de cadastro com e-mail inválido: ${data.email}`,
+        `Tentativa de cadastro com e-mail inválido: ${data.email}`
       );
     }
 
